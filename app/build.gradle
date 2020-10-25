@@ -20,19 +20,19 @@ android {
     }
 
     signingConfigs {
-//        debug {
-//            storeFile file('/Users/duxiaolei/Documents/platform.keystore')
-//            storePassword STORE_PASSWORD
-//            keyAlias 'androiddebugkey'
-//            keyPassword KEY_PASSWORD
-//        }
+        debug {
+            storeFile file('/Users/duxiaolei/Documents/platform.keystore')
+            storePassword STORE_PASSWORD
+            keyAlias KEYALIAS
+            keyPassword KEY_PASSWORD
+        }
     }
 
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-//            signingConfig signingConfigs.debug
+            signingConfig signingConfigs.debug
 //            manifestPlaceholders = [
 //                    icon: "@mipmap/ic_launcher_release",
 //                    app_name: "@string/app_name_release",
