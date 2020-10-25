@@ -1,5 +1,10 @@
 apply plugin: 'com.android.application'
 
+
+static def buildTime() {
+    return new Date().format("yyyyMMdd", TimeZone.getTimeZone("UTC"))
+}
+
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.3"
@@ -9,21 +14,65 @@ android {
         minSdkVersion 26
         targetSdkVersion 29
         versionCode 1
-        versionName "1.0"
+        versionName buildTime()
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    signingConfigs {
+//        debug {
+//            storeFile file('/Users/duxiaolei/Documents/platform.keystore')
+//            storePassword STORE_PASSWORD
+//            keyAlias 'androiddebugkey'
+//            keyPassword KEY_PASSWORD
+//        }
     }
 
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+//            signingConfig signingConfigs.debug
+//            manifestPlaceholders = [
+//                    icon: "@mipmap/ic_launcher_release",
+//                    app_name: "@string/app_name_release",
+//                    roundIcon: "@mipmap/ic_launcher_round_release"
+//            ]
+        }
+
+        debug {
+            applicationIdSuffix '.debug'
+            minifyEnabled false
+//            signingConfig signingConfigs.debug
+//            manifestPlaceholders = [
+//                    icon: "@mipmap/ic_launcher",
+//                    app_name: "@string/app_name_debug",
+//                    roundIcon: "@mipmap/ic_launcher_round"
+//            ]
         }
     }
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+
+    applicationVariants.all { variant ->
+        variant.outputs.all { output ->
+            def outputFile = output.outputFile
+            def buildTypeNum = "0"
+            if (variant.buildType.name == "release")
+                buildTypeNum = "0"
+            else
+                buildTypeNum = "1"
+            if (outputFile != null && outputFile.name.endsWith('.apk')) {
+                def fileName = "app_v${defaultConfig.versionName}_${buildTime()}_${buildTypeNum}_${variant.name}.apk"
+                println "The apk file name is " + fileName
+                outputFileName = fileName
+            }
+
+        }
     }
 }
 

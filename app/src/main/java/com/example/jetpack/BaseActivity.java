@@ -5,6 +5,8 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import butterknife.ButterKnife;
+
 public abstract class BaseActivity extends AppCompatActivity implements IActivityView {
 
     @Override
@@ -14,6 +16,7 @@ public abstract class BaseActivity extends AppCompatActivity implements IActivit
         afterOnCreate();
         if (getLayoutId() != 0){
             setContentView(getLayoutId());
+            ButterKnife.bind(this);
         }
         initViews();
     }
